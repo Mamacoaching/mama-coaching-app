@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MAMA Coaching | GPS Live Selfie Attendance</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eef5ff;font:16px system-ui,Arial;color:#143760}header{background:#073b78;color:white;padding:18px;text-align:center}main{max-width:650px;margin:auto;padding:14px}section{background:white;border-radius:14px;padding:18px;margin:14px 0;box-shadow:0 3px 12px #1232}input,button{width:100%;padding:13px;margin:8px 0;border-radius:9px;font:inherit}input{border:1px solid #b9cbe0}button{border:0;background:#075bb9;color:white;font-weight:700}button:disabled{opacity:.45}video,img{display:block;width:100%;border-radius:10px;margin:10px 0}#camera,#preview{display:none}#bridgeFrame{display:none}a{color:#f9b05a}p{overflow-wrap:anywhere}.error{color:#b32121}.success{color:#137a40}small{color:#53697e}
+</style></head><body>
+<header><strong>📍 MAMA Coaching Attendance</strong><div><a href="./index.html">Student Portal</a></div></header>
+<main><section><h3>1. Student Login</h3><input id="roll" placeholder="Roll Number" autocomplete="off"><input id="mobile" type="tel" inputmode="numeric" placeholder="Registered Mobile Number" autocomplete="off"><button id="loginBtn">Login</button><p id="loginMsg"></p></section>
+<section id="steps" hidden><h3 id="welcome">Attendance</h3><p id="center"></p><button id="gpsBtn">2. GPS Check</button><p id="gpsMsg"></p><button id="cameraBtn" disabled>3. Live Camera खोलें</button><video id="camera" autoplay playsinline muted></video><button id="snapBtn" hidden>4. Live Selfie लें</button><img id="preview" alt="Selfie preview"><button id="saveBtn" disabled>5. Attendance Save करें</button><p id="saveMsg"></p></section>
+<section><small>Selfie और Location केवल Attendance के लिए उपयोग होंगी। Camera/GPS अनुमति देना आवश्यक है। Fake GPS या फोटो से ली गई Selfie का उपयोग न करें। Attendance तभी सफल है जब Server Confirmation आए।</small></section></main>
+<iframe name="attendanceBridge" id="bridgeFrame" title="Secure attendance response"></iframe>
+<script src="./config.js"></script><script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);let geo=null,selfie=null,stream=null,verified=false,pending=null;
+const ENDPOINT=window.MAMA_PORTAL_URL;
+const msg=(id,s,ok)=>{$(id).textContent=s;$(id).className=ok===undefined?'':ok?'success':'error'};
+const nonce=()=>crypto.randomUUID?crypto.randomUUID():Array.from(crypto.getRandomValues(new Uint8Array(16)),x=>x.toString(16).padStart(2,'0')).join('');
+function bridge(action,data){return new Promise((resolve,reject)=>{
+if(pending){reject(Error('पिछली Request पूरी होने दें'));return}
+if(!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:[?#]|$)/.test(ENDPOINT||'')){reject(Error('config.js में /exec URL सही करें'));return}
+const requestId=nonce();const timer=setTimeout(()=>{pending=null;reject(Error('Server Timeout. Apps Script Deployment जाँचें।'))},45000);
+pending={requestId,resolve,reject,timer};const form=document.createElement('form');form.method='POST';form.action=ENDPOINT;form.target='attendanceBridge';form.style.display='none';
+const params={mama_attendance_bridge:'1',action,requestId,...data};for(const [key,value] of Object.entries(params)){const input=document.createElement('input');input.name=key;input.value=String(value);form.appendChild(input)}document.body.appendChild(form);form.submit();form.remove();
+})}
+window.addEventListener('message',e=>{
+if(!pending||!/^https:\/\/([a-z0-9-]+\.)?googleusercontent\.com$/.test(e.origin)&&e.origin!=='https://script.google.com')return;
+const d=e.data;if(!d||d.type!=='MAMA_ATTENDANCE_BRIDGE'||d.requestId!==pending.requestId)return;
+const p=pending;pending=null;clearTimeout(p.timer);d.ok?p.resolve(d.result):p.reject(Error(d.error||'Server error'));
+});
+$('loginBtn').onclick=async()=>{verified=false;geo=null;selfie=null;$('steps').hidden=true;msg('loginMsg','Login checking...');$('loginBtn').disabled=true;try{const r=await bridge('login',{roll:$('roll').value.trim(),mobile:$('mobile').value.trim()});verified=true;$('steps').hidden=false;$('welcome').textContent='नमस्ते '+r.student.name;$('center').textContent=r.center?'Assigned Center: '+r.center.name:'Center अभी Assign नहीं है';msg('loginMsg','Login successful',true)}catch(e){msg('loginMsg',e.message,false)}finally{$('loginBtn').disabled=false}};
+$('gpsBtn').onclick=()=>{geo=null;selfie=null;$('cameraBtn').disabled=true;$('saveBtn').disabled=true;msg('gpsMsg','GPS प्राप्त कर रहे हैं...');if(!navigator.geolocation){msg('gpsMsg','GPS उपलब्ध नहीं है',false);return}navigator.geolocation.getCurrentPosition(p=>{geo={lat:p.coords.latitude,lng:p.coords.longitude,accuracy:p.coords.accuracy};if(geo.accuracy>100){msg('gpsMsg','Accuracy '+Math.round(geo.accuracy)+'m है, दोबारा कोशिश करें',false);return}msg('gpsMsg','GPS Accuracy '+Math.round(geo.accuracy)+'m',true);$('cameraBtn').disabled=false},e=>msg('gpsMsg',e.message,false),{enableHighAccuracy:true,timeout:25000,maximumAge:0})};
+$('cameraBtn').onclick=async()=>{msg('saveMsg','Camera खोल रहे हैं...');try{if(stream)stream.getTracks().forEach(t=>t.stop());stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false}).catch(async e=>{if(e.name==='OverconstrainedError'||e.name==='NotFoundError')return navigator.mediaDevices.getUserMedia({video:true,audio:false});throw e});$('camera').srcObject=stream;$('camera').style.display='block';await $('camera').play();$('snapBtn').hidden=false;msg('saveMsg','Camera चालू है। Selfie लें।',true)}catch(e){msg('saveMsg',e.name+': '+e.message,false)}};
+$('snapBtn').onclick=()=>{const v=$('camera');if(!v.videoWidth){msg('saveMsg','Camera तैयार नहीं है',false);return}const c=document.createElement('canvas');c.width=360;c.height=Math.round(360*v.videoHeight/v.videoWidth);c.getContext('2d').drawImage(v,0,0,c.width,c.height);selfie=c.toDataURL('image/jpeg',.65);$('preview').src=selfie;$('preview').style.display='block';$('saveBtn').disabled=false;stream?.getTracks().forEach(t=>t.stop());stream=null;v.style.display='none';$('snapBtn').hidden=true;msg('saveMsg','Selfie तैयार है',true)};
+$('saveBtn').onclick=async()=>{if(!verified||!geo||!selfie)return;$('saveBtn').disabled=true;msg('saveMsg','Attendance Save हो रही है...');try{const r=await bridge('mark',{roll:$('roll').value.trim(),mobile:$('mobile').value.trim(),lat:geo.lat,lng:geo.lng,accuracy:geo.accuracy,selfie});msg('saveMsg','✅ Attendance Confirmed: '+r.center+' | '+r.date+' '+r.time+' | '+r.distance+'m',true);selfie=null}catch(e){msg('saveMsg','❌ '+e.message,false);$('saveBtn').disabled=false}};
+})();
+</script></body></html>
