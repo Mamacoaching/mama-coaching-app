@@ -1,8 +1,30 @@
-<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MAMA Coaching | Student Services</title><style>
-*{box-sizing:border-box}body{margin:0;background:#eef5ff;color:#14345e;font-family:system-ui,'Noto Sans Devanagari',sans-serif}header{background:linear-gradient(125deg,#103c8b,#6935cc,#d84284);color:white;padding:35px 15px;text-align:center}h1{font-size:clamp(30px,5vw,48px);margin:0 0 8px}header p{margin:6px}main{max-width:1050px;margin:auto;padding:20px 14px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.tile{min-height:135px;padding:18px 10px;border-radius:17px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:7px;text-decoration:none;color:white;text-align:center;box-shadow:0 7px 18px #163e7333}.tile .emoji{font-size:34px}.tile strong{font-size:19px}.tile small{font-size:12px}.orange{background:linear-gradient(130deg,#f97316,#e94668)}.blue{background:linear-gradient(130deg,#0284c7,#3055d9)}.green{background:linear-gradient(130deg,#047857,#10b981)}.purple{background:linear-gradient(130deg,#7432cf,#ad3dca)}.card{background:white;border:1px solid #d3e3f4;border-radius:17px;padding:21px;margin-top:19px;box-shadow:0 7px 22px #133e7516}h2{margin:0 0 10px;color:#153c8b;text-align:center}.sub{text-align:center;color:#526a88}.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.level{border-radius:12px;background:#eef4ff;text-align:center;padding:16px 8px}.level b{display:block;margin-bottom:10px}.level a{display:inline-block;background:#154f9f;color:white;text-decoration:none;padding:9px 12px;border-radius:9px;font-size:13px}.admin{display:block;margin-top:20px;background:linear-gradient(115deg,#123e92,#7535ce);padding:17px;color:white;text-decoration:none;border-radius:12px;text-align:center;font-weight:800}footer{text-align:center;padding:22px;background:#12346f;color:white;margin-top:24px}.notice{background:#fff8e6;border-left:4px solid #f59e0b;padding:12px;border-radius:9px;font-size:13px;margin-top:14px}@media(max-width:620px){.grid{gap:10px}.tile{min-height:125px}.tile strong{font-size:15px}.levels{grid-template-columns:1fr}}
-</style></head><body><header><h1>🎓 MAMA Coaching</h1><p>MAMA Coaching and Skill Development Mission</p><p>विदिशा संसदीय क्षेत्र</p><strong>पढ़ेगा मध्यप्रदेश, तभी बढ़ेगा मध्यप्रदेश</strong></header><main><div class="grid"><a class="tile orange" id="register"><span class="emoji">📝</span><strong>Student Registration</strong><small>नया पंजीयन करें</small></a><a class="tile blue" id="login"><span class="emoji">🎓</span><strong>Student Login</strong><small>Tests • Results • Profile</small></a><a class="tile green" href="./attendance.html"><span class="emoji">📍</span><strong>GPS Attendance</strong><small>Live Selfie Attendance</small></a><a class="tile purple" id="help"><span class="emoji">🎧</span><strong>Help Desk</strong><small>समस्या एवं सुझाव</small></a></div><section class="card"><h2>🏆 MAMA Coaching Top Scorers</h2><p class="sub">LOW • MID • HIGH — Top 3 Champions</p><div class="levels"><div class="level"><b>🥇 LOW Level</b><a id="lowTop">Top Scorers देखें</a></div><div class="level"><b>🥈 MID Level</b><a id="midTop">Top Scorers देखें</a></div><div class="level"><b>🥉 HIGH Level</b><a id="highTop">Top Scorers देखें</a></div></div><p class="notice">वास्तविक नाम, फोटो और अंक Results वाले Apps Script Portal पर दिखाई देंगे। GitHub Home Page पर सीधे Live Ranking दिखाने के लिए अलग सुरक्षित Data API की आवश्यकता है।</p></section><section class="card"><h2>📚 Online Test Series</h2><p class="sub">30 Tests • LOW + MID + HIGH</p><p class="sub">Approved Students Login करके उपलब्ध Tests दे सकते हैं।</p></section><a class="admin" id="admin">🔐 Admin Login — Dashboard & Reports</a></main><footer>MAMA Coaching • Student Services</footer><script>
-const PORTAL='https://script.google.com/macros/s/AKfycbyzqoY_OVSSAY4N-7ppAXySDZpKrhxNFwxmzBwZWuayH4QfZTRXgykiSj50fz5FC6Y/exec';
-const view=(name)=>PORTAL+'?view='+encodeURIComponent(name);
-for(const [id,name] of [['register','register'],['login','login'],['help','help'],['admin','admin']])document.getElementById(id).href=view(name);
-for(const id of ['lowTop','midTop','highTop'])document.getElementById(id).href=PORTAL;
+<!doctype html>
+<html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>MAMA Coaching | Official Student Portal</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,Arial,sans-serif;color:#12345d;background:#eaf2fc}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px max(14px,calc((100vw - 1300px)/2));background:linear-gradient(110deg,#063879,#1857a5);color:white}
+.brand{font-size:clamp(19px,2.6vw,27px);font-weight:900;letter-spacing:.2px}.brand small{display:block;font-size:12px;font-weight:500;opacity:.9}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.actions a{display:inline-flex;align-items:center;justify-content:center;border-radius:9px;padding:10px 13px;background:white;color:#073b78;text-decoration:none;font-size:13px;font-weight:800}.actions a.att{background:#10b981;color:#042b22}
+.notice{text-align:center;padding:7px 12px;background:#fff9e8;color:#5b4615;font-size:12px;border-bottom:1px solid #f1e1ae}
+.frame{width:100%;height:calc(100dvh - 105px);min-height:650px;border:0;display:block;background:#edf5ff}
+.loading{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);background:#fff;border-radius:14px;padding:16px 22px;box-shadow:0 10px 30px #113a6b24;font-size:14px;pointer-events:none}
+footer{text-align:center;padding:9px;color:#476484;font-size:12px}
+@media(max-width:620px){.top{padding:10px}.actions a{padding:8px;font-size:12px}.frame{height:calc(100dvh - 160px);min-height:700px}}
+</style></head><body>
+<header class="top"><div class="brand">🎓 MAMA Coaching<small>Student Portal • विदिशा संसदीय क्षेत्र</small></div>
+<nav class="actions" aria-label="मुख्य लिंक"><a href="./attendance.html" class="att">📍 Attendance</a><a id="external" target="_blank" rel="noopener noreferrer">↗ Portal अलग खोलें</a></nav></header>
+<div class="notice">सुरक्षा: अपना Roll Number, Mobile या Admin PIN केवल अधिकृत Portal में भरें।</div>
+<main><div class="loading" id="loading" role="status">MAMA Coaching Portal लोड हो रहा है…</div>
+<iframe id="portal" class="frame" title="MAMA Coaching Registration, Login, Tests, Results and Admin" referrerpolicy="strict-origin-when-cross-origin" allow="camera; geolocation" loading="eager"></iframe></main>
+<footer>© MAMA Coaching • Data processing by Google Apps Script • Website hosted on GitHub Pages</footer>
+<script>
+(function(){'use strict';
+const url='https://script.google.com/macros/s/AKfycbyzqoY_OVSSAY4N-7ppAXySDZpKrhxNFwxmzBwZWuayH4QfZTRXgykiSj50fz5FC6Y/exec';
+document.getElementById('external').href=url;
+const frame=document.getElementById('portal');
+frame.addEventListener('load',()=>{document.getElementById('loading').hidden=true});
+frame.src=url;
+})();
 </script></body></html>
