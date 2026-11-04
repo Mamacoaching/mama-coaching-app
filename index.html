@@ -1,30 +1,17 @@
 <!doctype html>
-<html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>MAMA Coaching | Official Student Portal</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,Arial,sans-serif;color:#12345d;background:#eaf2fc}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px max(14px,calc((100vw - 1300px)/2));background:linear-gradient(110deg,#063879,#1857a5);color:white}
-.brand{font-size:clamp(19px,2.6vw,27px);font-weight:900;letter-spacing:.2px}.brand small{display:block;font-size:12px;font-weight:500;opacity:.9}
-.actions{display:flex;gap:8px;flex-wrap:wrap}.actions a{display:inline-flex;align-items:center;justify-content:center;border-radius:9px;padding:10px 13px;background:white;color:#073b78;text-decoration:none;font-size:13px;font-weight:800}.actions a.att{background:#10b981;color:#042b22}
-.notice{text-align:center;padding:7px 12px;background:#fff9e8;color:#5b4615;font-size:12px;border-bottom:1px solid #f1e1ae}
-.frame{width:100%;height:calc(100dvh - 105px);min-height:650px;border:0;display:block;background:#edf5ff}
-.loading{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);background:#fff;border-radius:14px;padding:16px 22px;box-shadow:0 10px 30px #113a6b24;font-size:14px;pointer-events:none}
-footer{text-align:center;padding:9px;color:#476484;font-size:12px}
-@media(max-width:620px){.top{padding:10px}.actions a{padding:8px;font-size:12px}.frame{height:calc(100dvh - 160px);min-height:700px}}
-</style></head><body>
-<header class="top"><div class="brand">🎓 MAMA Coaching<small>Student Portal • विदिशा संसदीय क्षेत्र</small></div>
-<nav class="actions" aria-label="मुख्य लिंक"><a href="./attendance.html" class="att">📍 Attendance</a><a id="external" target="_blank" rel="noopener noreferrer">↗ Portal अलग खोलें</a></nav></header>
-<div class="notice">सुरक्षा: अपना Roll Number, Mobile या Admin PIN केवल अधिकृत Portal में भरें।</div>
-<main><div class="loading" id="loading" role="status">MAMA Coaching Portal लोड हो रहा है…</div>
-<iframe id="portal" class="frame" title="MAMA Coaching Registration, Login, Tests, Results and Admin" referrerpolicy="strict-origin-when-cross-origin" allow="camera; geolocation" loading="eager"></iframe></main>
-<footer>© MAMA Coaching • Data processing by Google Apps Script • Website hosted on GitHub Pages</footer>
-<script>
-(function(){'use strict';
-const url='https://script.google.com/macros/s/AKfycbyzqoY_OVSSAY4N-7ppAXySDZpKrhxNFwxmzBwZWuayH4QfZTRXgykiSj50fz5FC6Y/exec';
-document.getElementById('external').href=url;
-const frame=document.getElementById('portal');
-frame.addEventListener('load',()=>{document.getElementById('loading').hidden=true});
-frame.src=url;
-})();
-</script></body></html>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#edf5ff;font-family:Arial,sans-serif}
+#portal{display:block;width:100%;height:100dvh;border:0;background:#edf5ff}
+</style>
+</head>
+<body>
+<iframe id="portal" title="MAMA Coaching Official Student Portal" referrerpolicy="strict-origin-when-cross-origin" allow="camera; geolocation" loading="eager" src="https://script.google.com/macros/s/AKfycbyzqoY_OVSSAY4N-7ppAXySDZpKrhxNFwxmzBwZWuayH4QfZTRXgykiSj50fz5FC6Y/exec"></iframe>
+</body>
+</html>
