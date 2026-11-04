@@ -1,17 +1,69 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<title>MAMA Coaching | Official Student Portal</title>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1">
+<title>MAMA Coaching | Student Portal</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#edf5ff;font-family:Arial,sans-serif}
-#portal{display:block;width:100%;height:100dvh;border:0;background:#edf5ff}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#edf5ff;
+}
+header{
+ background:#103d7c;
+ color:white;
+ padding:12px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+}
+header strong{font-size:18px}
+a{
+ display:inline-block;
+ background:#f97316;
+ color:white;
+ text-decoration:none;
+ padding:10px;
+ border-radius:8px;
+ font-size:13px;
+ font-weight:bold;
+}
+iframe{
+ width:100%;
+ height:calc(100dvh - 62px);
+ border:0;
+ display:block;
+}
 </style>
 </head>
 <body>
-<iframe id="portal" title="MAMA Coaching Official Student Portal" referrerpolicy="strict-origin-when-cross-origin" allow="camera; geolocation" loading="eager" src="https://script.google.com/macros/s/AKfycbzDJTPXxR8ruL9EjpOwfPFlr77pPFCC_wQPZ4KTU6BFgEDQ6pfUMSTNF9_pdYMdN3M/exec"></iframe>
+<header>
+<strong>MAMA Coaching</strong>
+<a id="direct" target="_blank"
+rel="noopener noreferrer">
+Portal खोलें
+</a>
+</header>
+
+<iframe id="portal"
+title="MAMA Coaching Student Portal"
+allow="camera; geolocation">
+</iframe>
+
+<script>
+const WORKING_URL =
+"https://script.google.com/macros/s/AKfycbyzqoY_OVSSAY4N-7ppAXySDZpKrhxNFwxmzBwZWuayH4QfZTRXgykiSj50fz5FC6Y/exec";
+
+document.getElementById("portal").src =
+WORKING_URL;
+
+document.getElementById("direct").href =
+WORKING_URL;
+</script>
 </body>
 </html>
