@@ -1,36 +1,26 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#083d7b">
 <title>MAMA Coaching | Student Portal</title>
 <style>
-* {
-  box-sizing: border-box;
-}
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  background: #eef5ff;
-}
-#portal {
-  display: block;
-  width: 100%;
-  height: 100dvh;
-  border: none;
-}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,'Noto Sans Devanagari',sans-serif;background:#edf5ff;color:#103f79}header{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#083d7b;color:white;padding:12px 18px}header strong{font-size:18px}a.open{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:#f97316;color:white;padding:12px 18px;border-radius:10px;font-weight:700;min-height:44px}.mobile{display:none}.frame{width:100%;height:calc(100dvh - 68px);border:0;display:block}.mobile main{max-width:500px;margin:9vh auto 0;padding:24px;text-align:center}.mobile .card{background:white;border:1px solid #d7e6fa;border-radius:18px;padding:28px 20px;box-shadow:0 8px 24px #0b3e7b12}.mobile h1{font-size:25px}.mobile p{line-height:1.6}.mobile a.open{width:100%;margin-top:12px}.mobile small{display:block;margin-top:18px;color:#55718d;line-height:1.6}@media(max-width:767px){header,.frame{display:none}.mobile{display:block}}@media(min-width:768px){header .open{font-size:14px}}@media(prefers-reduced-motion:no-preference){a.open{transition:filter .15s}a.open:hover{filter:brightness(.95)}}
 </style>
 </head>
 <body>
-
-<iframe
-  id="portal"
-  title="MAMA Coaching Student Portal"
-  allow="camera; geolocation"
-  src="https://script.google.com/macros/s/AKfycbyzqoY_OVSSAY4N-7ppAXySDZpKrhxNFwxmzBwZWuayH4QfZTRXgykiSj50fz5FC6Y/exec">
-</iframe>
-
+<header><strong>🎓 MAMA Coaching</strong><a class="open" id="desktopOpen" target="_blank" rel="noopener noreferrer">Portal सीधे खोलें ↗</a></header>
+<iframe id="portal" class="frame" title="MAMA Coaching Student Portal" allow="camera; geolocation" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<div class="mobile"><main><div class="card"><h1>🎓 MAMA Coaching</h1><p>Student, Admin और Center / Office Login के लिए नीचे दिए गए बटन से Portal खोलें।</p><a class="open" id="mobileOpen" rel="noopener noreferrer">🔐 MAMA Coaching Portal खोलें</a><small>मोबाइल पर Portal सीधे खुलेगा, ताकि Login और Session में iframe की समस्या न आए।</small></div></main></div>
+<script>
+(function(){
+  // Deployment URL: update this one line whenever Apps Script deployment changes.
+  var portalUrl='https://script.google.com/macros/s/AKfycbzDJTPXxR8ruL9EjpOwfPFlr77pPFCC_wQPZ4KTU6BFgEDQ6pfUMSTNF9_pdYMdN3M/exec';
+  document.getElementById('desktopOpen').href=portalUrl;
+  document.getElementById('mobileOpen').href=portalUrl;
+  document.getElementById('portal').src=portalUrl;
+})();
+</script>
 </body>
 </html>
