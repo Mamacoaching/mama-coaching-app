@@ -1,25 +1,48 @@
 <!doctype html>
 <html lang="hi">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#083d7b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
 <title>MAMA Coaching | Student Portal</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,'Noto Sans Devanagari',sans-serif;background:#edf5ff;color:#103f79}header{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#083d7b;color:white;padding:12px 18px}header strong{font-size:18px}a.open{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:#f97316;color:white;padding:12px 18px;border-radius:10px;font-weight:700;min-height:44px}.mobile{display:none}.frame{width:100%;height:calc(100dvh - 68px);border:0;display:block}.mobile main{max-width:500px;margin:9vh auto 0;padding:24px;text-align:center}.mobile .card{background:white;border:1px solid #d7e6fa;border-radius:18px;padding:28px 20px;box-shadow:0 8px 24px #0b3e7b12}.mobile h1{font-size:25px}.mobile p{line-height:1.6}.mobile a.open{width:100%;margin-top:12px}.mobile small{display:block;margin-top:18px;color:#55718d;line-height:1.6}@media(max-width:767px){header,.frame{display:none}.mobile{display:block}}@media(min-width:768px){header .open{font-size:14px}}@media(prefers-reduced-motion:no-preference){a.open{transition:filter .15s}a.open:hover{filter:brightness(.95)}}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif;background:#eef5ff}
+#portal{display:block;width:100%;height:100vh;height:100dvh;border:0}
+.tools{position:fixed;right:12px;bottom:14px;z-index:999;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 24px)}
+.tools a,.tools button{border:0;border-radius:999px;box-shadow:0 3px 14px #001d4680;font-weight:700;font-size:13px;min-height:42px;padding:10px 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.direct{background:#fff;color:#06477b}.install{background:#087f69;color:#fff}.install[hidden]{display:none}
+.tip{position:fixed;bottom:65px;right:12px;z-index:1000;background:#fff;color:#123f6e;box-shadow:0 5px 22px #001d4666;border-radius:12px;padding:16px;max-width:min(360px,calc(100vw - 24px));line-height:1.5;font-size:14px}
+.tip[hidden]{display:none}.tip button{margin-top:10px;padding:7px 12px;border:0;border-radius:7px;background:#0b5aa1;color:white}
+@media(max-width:600px){.tools{bottom:10px;right:8px;gap:6px}.tools a,.tools button{font-size:12px;min-height:40px;padding:9px 11px}}
 </style>
 </head>
 <body>
-<header><strong>🎓 MAMA Coaching</strong><a class="open" id="desktopOpen" target="_blank" rel="noopener noreferrer">Portal सीधे खोलें ↗</a></header>
-<iframe id="portal" class="frame" title="MAMA Coaching Student Portal" allow="camera; geolocation" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-<div class="mobile"><main><div class="card"><h1>🎓 MAMA Coaching</h1><p>Student, Admin और Center / Office Login के लिए नीचे दिए गए बटन से Portal खोलें।</p><a class="open" id="mobileOpen" rel="noopener noreferrer">🔐 MAMA Coaching Portal खोलें</a><small>मोबाइल पर Portal सीधे खुलेगा, ताकि Login और Session में iframe की समस्या न आए।</small></div></main></div>
+<!-- Full original MAMA Coaching homepage, leaderboard, and all login tabs remain inside this iframe. -->
+<iframe id="portal" title="MAMA Coaching - Full Student Portal" allow="camera; geolocation" referrerpolicy="strict-origin-when-cross-origin" src="https://script.google.com/macros/s/AKfycbyzqoY_OVSSAY4N-7ppAXySDZpKrhxNFwxmzBwZWuayH4QfZTRXgykiSj50fz5FC6Y/exec"></iframe>
+<div class="tools">
+  <a class="direct" href="https://script.google.com/macros/s/AKfycbyzqoY_OVSSAY4N-7ppAXySDZpKrhxNFwxmzBwZWuayH4QfZTRXgykiSj50fz5FC6Y/exec" target="_blank" rel="noopener noreferrer" title="अगर मोबाइल में Login नहीं होता तो Direct Portal खोलें">🔐 Direct Login</a>
+  <button class="install" id="installBtn" type="button">📲 Install App</button>
+</div>
+<div class="tip" id="tip" hidden role="status">Android Chrome: ⋮ मेनू → <b>Install app</b> या <b>Add to Home screen</b>।<br>iPhone Safari: Share → <b>Add to Home Screen</b>।<br>Install करने के बाद भी Portal में Login की समस्या हो तो <b>Direct Login</b> चुनें।<br><button type="button" id="closeTip">बंद करें</button></div>
 <script>
 (function(){
-  // Deployment URL: update this one line whenever Apps Script deployment changes.
-  var portalUrl='https://script.google.com/macros/s/AKfycbzDJTPXxR8ruL9EjpOwfPFlr77pPFCC_wQPZ4KTU6BFgEDQ6pfUMSTNF9_pdYMdN3M/exec';
-  document.getElementById('desktopOpen').href=portalUrl;
-  document.getElementById('mobileOpen').href=portalUrl;
-  document.getElementById('portal').src=portalUrl;
+'use strict';
+var deferredPrompt=null;
+var installBtn=document.getElementById('installBtn');
+var tip=document.getElementById('tip');
+window.addEventListener('beforeinstallprompt',function(event){event.preventDefault();deferredPrompt=event;});
+installBtn.addEventListener('click',async function(){
+  if(!deferredPrompt){tip.hidden=false;return;}
+  var prompt=deferredPrompt;deferredPrompt=null;
+  try{await prompt.prompt();await prompt.userChoice;}catch(e){tip.hidden=false;}
+});
+document.getElementById('closeTip').addEventListener('click',function(){tip.hidden=true;});
+window.addEventListener('appinstalled',function(){deferredPrompt=null;installBtn.hidden=true;tip.hidden=true;});
+if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){});});}
 })();
 </script>
 </body>
