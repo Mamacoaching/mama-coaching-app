@@ -1,49 +1,17 @@
-<!doctype html>
-<html lang="hi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#083d7b">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" href="./icon-192.png">
-<title>MAMA Coaching | Student Portal</title>
-<style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;font-family:Arial,sans-serif;background:#eef5ff}
-#portal{display:block;width:100%;height:100vh;height:100dvh;border:0}
-.tools{position:fixed;right:12px;bottom:14px;z-index:999;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 24px)}
-.tools a,.tools button{border:0;border-radius:999px;box-shadow:0 3px 14px #001d4680;font-weight:700;font-size:13px;min-height:42px;padding:10px 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
-.direct{background:#fff;color:#06477b}.install{background:#087f69;color:#fff}.install[hidden]{display:none}
-.tip{position:fixed;bottom:65px;right:12px;z-index:1000;background:#fff;color:#123f6e;box-shadow:0 5px 22px #001d4666;border-radius:12px;padding:16px;max-width:min(360px,calc(100vw - 24px));line-height:1.5;font-size:14px}
-.tip[hidden]{display:none}.tip button{margin-top:10px;padding:7px 12px;border:0;border-radius:7px;background:#0b5aa1;color:white}
-@media(max-width:600px){.tools{bottom:10px;right:8px;gap:6px}.tools a,.tools button{font-size:12px;min-height:40px;padding:9px 11px}}
-</style>
-</head>
-<body>
-<!-- Full original MAMA Coaching homepage, leaderboard, and all login tabs remain inside this iframe. -->
-<iframe id="portal" title="MAMA Coaching - Full Student Portal" allow="camera; geolocation" referrerpolicy="strict-origin-when-cross-origin" src="https://script.google.com/macros/s/AKfycbyzqoY_OVSSAY4N-7ppAXySDZpKrhxNFwxmzBwZWuayH4QfZTRXgykiSj50fz5FC6Y/exec"></iframe>
-<div class="tools">
-  <a class="direct" href="https://script.google.com/macros/s/AKfycbyzqoY_OVSSAY4N-7ppAXySDZpKrhxNFwxmzBwZWuayH4QfZTRXgykiSj50fz5FC6Y/exec" target="_blank" rel="noopener noreferrer" title="अगर मोबाइल में Login नहीं होता तो Direct Portal खोलें">🔐 Direct Login</a>
-  <button class="install" id="installBtn" type="button">📲 Install App</button>
-</div>
-<div class="tip" id="tip" hidden role="status">Android Chrome: ⋮ मेनू → <b>Install app</b> या <b>Add to Home screen</b>।<br>iPhone Safari: Share → <b>Add to Home Screen</b>।<br>Install करने के बाद भी Portal में Login की समस्या हो तो <b>Direct Login</b> चुनें।<br><button type="button" id="closeTip">बंद करें</button></div>
-<script>
-(function(){
-'use strict';
-var deferredPrompt=null;
-var installBtn=document.getElementById('installBtn');
-var tip=document.getElementById('tip');
-window.addEventListener('beforeinstallprompt',function(event){event.preventDefault();deferredPrompt=event;});
-installBtn.addEventListener('click',async function(){
-  if(!deferredPrompt){tip.hidden=false;return;}
-  var prompt=deferredPrompt;deferredPrompt=null;
-  try{await prompt.prompt();await prompt.userChoice;}catch(e){tip.hidden=false;}
-});
-document.getElementById('closeTip').addEventListener('click',function(){tip.hidden=true;});
-window.addEventListener('appinstalled',function(){deferredPrompt=null;installBtn.hidden=true;tip.hidden=true;});
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){});});}
+<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MAMA Coaching | Single-Tab WhatsApp Sender</title><style>
+*{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#edf5ff;color:#15335d;margin:0}main{max-width:860px;margin:22px auto;padding:22px;background:white;border-radius:16px;box-shadow:0 8px 30px #1235}h1{font-size:24px;margin:0 0 8px}p{line-height:1.5}.controls{display:flex;gap:10px;flex-wrap:wrap}button{border:0;background:#0866c2;color:#fff;border-radius:9px;padding:14px 17px;cursor:pointer;font-size:15px;font-weight:bold}button:disabled{opacity:.5;cursor:not-allowed}.green{background:#07865b}.secondary{background:#475569}textarea{width:100%;min-height:115px;padding:12px;border:1px solid #bdd0e8;border-radius:8px}label{display:block;font-weight:bold;margin:14px 0 7px}.panel{background:#f2f8ff;border:1px solid #d3e2f4;border-radius:10px;padding:14px;margin:12px 0}#status{font-weight:bold;color:#075985;white-space:pre-wrap}.small{font-size:13px;color:#52657b}input[type=file]{width:100%}@media(max-width:600px){main{margin:8px;padding:14px}.controls button{flex:1}}
+</style></head><body><main><h1>💬 MAMA Coaching — WhatsApp Single-Tab Sender</h1><p>इस Sender Page को अलग Browser Tab में खुला रखें। WhatsApp के लिए केवल एक नियंत्रित Tab इस्तेमाल करने की कोशिश होगी। हर Student का Message WhatsApp में खुद Send करना होगा।</p><div class="panel"><b id="counter">0 Students loaded</b><p id="current">अभी कोई Student नहीं चुना गया।</p><div id="status" role="status">Admin Panel से Start Sender दबाकर यहाँ आएँ।</div></div><div class="controls"><button class="green" id="next" type="button">▶ Next Student — Open in Same WhatsApp Tab</button><button id="retry" type="button">↻ Reopen Current Student</button><button class="secondary" id="prev" type="button">← Previous</button></div><label>Message Preview</label><textarea id="message" readonly></textarea><details><summary>Manual Load (वैकल्पिक)</summary><label>Numbers (one per line)</label><textarea id="numbers" placeholder="9876543210&#10;9123456789"></textarea><label>Message</label><textarea id="manualMessage"></textarea><button id="load" type="button">Load 100 Numbers</button></details><p class="small">महत्वपूर्ण: Browser की Cross-Origin/Popup Policy या WhatsApp की सुरक्षा नीति Tab Reuse रोक सकती है। ऐसा होने पर एक ही WhatsApp Tab की गारंटी संभव नहीं है। Sender Tab को बंद न करें। यह Free Manual Sending है, Automatic Bulk Messaging नहीं।</p></main><script>
+(function(){'use strict';
+var phones=[],message='',index=-1,waTab=null,waTabName='MAMA_Coaching_WhatsApp_Only';
+var $=id=>document.getElementById(id);
+function clean(s){s=String(s).replace(/\D/g,'');if(s.length===12&&s.slice(0,2)==='91')s=s.slice(2);return /^[6-9]\d{9}$/.test(s)?s:null}
+function load(arr,msg){var seen=new Set();phones=[];arr.forEach(n=>{n=clean(n);if(n&&!seen.has(n)&&phones.length<100){seen.add(n);phones.push(n)}});message=String(msg||'');index=-1;$('message').value=message;update();$('status').textContent=phones.length+' valid students ready. Next Student दबाएँ।'}
+function update(){ $('counter').textContent=phones.length?(Math.max(0,index+1)+' / '+phones.length+' Students'):'0 Students loaded';$('current').textContent=index>=0?'Current Student: '+phones[index]:'अभी कोई Student नहीं चुना गया।';$('next').disabled=!phones.length||index>=phones.length-1;$('retry').disabled=index<0;$('prev').disabled=index<=0}
+function openStudent(){if(index<0)return;var url='https://web.whatsapp.com/send?phone=91'+phones[index]+'&text='+encodeURIComponent(message);try{if(waTab&&!waTab.closed){waTab.location.replace(url);waTab.focus();$('status').textContent='Existing WhatsApp Tab में Student '+(index+1)+' खोला जा रहा है। WhatsApp में Send दबाएँ।';return}}catch(e){}try{waTab=window.open(url,waTabName);if(waTab){waTab.focus();$('status').textContent='WhatsApp Tab खोली गई। Login Session उसी Browser Profile में रखें।';return}}catch(e){}$('status').textContent='Browser ने Popup/Tab reuse रोका है। Chrome में Popups Allow करें।';}
+$('next').onclick=function(){if(index<phones.length-1){index++;update();openStudent()}};
+$('retry').onclick=function(){openStudent()};$('prev').onclick=function(){if(index>0){index--;update();openStudent()}};
+$('load').onclick=function(){load($('numbers').value.split(/[\s,;]+/),$('manualMessage').value)};
+try{var hash=location.hash;if(hash.startsWith('#data=')){var data=JSON.parse(decodeURIComponent(hash.slice(6)));if(data&&data.v===1&&Array.isArray(data.phones))load(data.phones,data.message);history.replaceState(null,'',location.pathname)}}catch(e){$('status').textContent='Sender Data पढ़ने में समस्या। Manual Load इस्तेमाल करें।'}
+update();
 })();
-</script>
-</body>
-</html>
+</script></body></html>
